@@ -7,7 +7,7 @@ import { teamRouter } from './routes/teams.js';
 import { userRouter } from './routes/users.js';
 import { workoutRouter } from './routes/workouts.js';
 
-const app = express();
+const app = express();/* コメント */
 const port = Number(process.env.PORT) || 8000;
 const codespaceName = process.env.CODESPACE_NAME;
 const apiUrl = codespaceName
