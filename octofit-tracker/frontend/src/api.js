@@ -12,9 +12,12 @@ export function normalizeCollection(payload) {
   return []
 }
 
-export async function fetchCollection(resource, signal) {
-  const response = await fetch(`${API_BASE_URL}/api/${resource}/`, { signal })
-  if (!response.ok) throw new Error(`Unable to load ${resource} (${response.status})`)
+export async function fetchCollection(resourceOrPath, signal) {
+  const endpointPath = resourceOrPath.startsWith('/')
+    ? resourceOrPath
+    : `/api/${resourceOrPath}/`
+  const response = await fetch(`${API_BASE_URL}${endpointPath}`, { signal })
+  if (!response.ok) throw new Error(`Unable to load ${endpointPath} (${response.status})`)
   return normalizeCollection(await response.json())
 }
 

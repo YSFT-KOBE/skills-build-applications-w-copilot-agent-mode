@@ -7,7 +7,7 @@ function Activities() {
   const [status, setStatus] = useState({ loading: true, error: '' })
   useEffect(() => {
     const controller = new AbortController()
-    fetchCollection('activities', controller.signal).then(setActivities).catch((error) => {
+    fetchCollection('/api/activities/', controller.signal).then(setActivities).catch((error) => {
       if (error.name !== 'AbortError') setStatus({ loading: false, error: error.message })
     }).finally(() => setStatus((current) => ({ ...current, loading: false })))
     return () => controller.abort()

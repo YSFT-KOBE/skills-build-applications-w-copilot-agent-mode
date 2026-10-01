@@ -7,7 +7,7 @@ function Leaderboard() {
   const [status, setStatus] = useState({ loading: true, error: '' })
   useEffect(() => {
     const controller = new AbortController()
-    fetchCollection('leaderboard', controller.signal).then(setLeaders).catch((error) => {
+    fetchCollection('/api/leaderboard/', controller.signal).then(setLeaders).catch((error) => {
       if (error.name !== 'AbortError') setStatus({ loading: false, error: error.message })
     }).finally(() => setStatus((current) => ({ ...current, loading: false })))
     return () => controller.abort()
