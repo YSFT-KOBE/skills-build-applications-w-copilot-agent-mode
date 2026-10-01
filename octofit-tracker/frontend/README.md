@@ -1,5 +1,9 @@
 # React + TypeScript + Vite
 
+## API configuration
+
+Define `VITE_CODESPACE_NAME` in `octofit-tracker/frontend/.env.local` so the presentation tier can reach the API through `https://${VITE_CODESPACE_NAME}-8000.app.github.dev/api/[component]/`. Copy `.env.local.example` as a starting point. When the variable is unset, the app safely falls back to `http://localhost:8000` for local development.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
