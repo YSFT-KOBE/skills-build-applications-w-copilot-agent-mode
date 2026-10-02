@@ -12,12 +12,18 @@ export function normalizeCollection(payload) {
   return []
 }
 
+export function buildApiEndpoint(codespaceSuffix, localPath) {
+  return codespaceName
+    ? `https://${codespaceName}${codespaceSuffix}`
+    : localPath
+}
+
 export async function fetchCollection(resourceOrPath, signal) {
-  const endpointPath = resourceOrPath.startsWith('/')
+  const endpointUrl = /^https?:\/\//i.test(resourceOrPath)
     ? resourceOrPath
-    : `/api/${resourceOrPath}/`
-  const response = await fetch(`${API_BASE_URL}${endpointPath}`, { signal })
-  if (!response.ok) throw new Error(`Unable to load ${endpointPath} (${response.status})`)
+    : `${API_BASE_URL}${resourceOrPath.startsWith('/') ? resourceOrPath : `/api/${resourceOrPath}/`}`
+  const response = await fetch(endpointUrl, { signal })
+  if (!response.ok) throw new Error(`Unable to load ${endpointUrl} (${response.status})`)
   return normalizeCollection(await response.json())
 }
 

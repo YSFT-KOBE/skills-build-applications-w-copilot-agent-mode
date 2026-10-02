@@ -1,13 +1,18 @@
 import { useEffect, useState } from 'react'
-import { fetchCollection } from '../api'
+import { buildApiEndpoint, fetchCollection } from '../api'
 import { ResourceState } from './ResourceState'
+
+const leaderboardEndpoint = buildApiEndpoint(
+  '-8000.app.github.dev/api/leaderboard/',
+  '/api/leaderboard/',
+)
 
 function Leaderboard() {
   const [leaders, setLeaders] = useState([])
   const [status, setStatus] = useState({ loading: true, error: '' })
   useEffect(() => {
     const controller = new AbortController()
-    fetchCollection('/api/leaderboard/', controller.signal).then(setLeaders).catch((error) => {
+    fetchCollection(leaderboardEndpoint, controller.signal).then(setLeaders).catch((error) => {
       if (error.name !== 'AbortError') setStatus({ loading: false, error: error.message })
     }).finally(() => setStatus((current) => ({ ...current, loading: false })))
     return () => controller.abort()

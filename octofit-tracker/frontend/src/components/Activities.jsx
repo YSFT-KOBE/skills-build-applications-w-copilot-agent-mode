@@ -1,13 +1,18 @@
 import { useEffect, useState } from 'react'
-import { displayDate, fetchCollection } from '../api'
+import { buildApiEndpoint, displayDate, fetchCollection } from '../api'
 import { ResourceState } from './ResourceState'
+
+const activitiesEndpoint = buildApiEndpoint(
+  '-8000.app.github.dev/api/activities/',
+  '/api/activities/',
+)
 
 function Activities() {
   const [activities, setActivities] = useState([])
   const [status, setStatus] = useState({ loading: true, error: '' })
   useEffect(() => {
     const controller = new AbortController()
-    fetchCollection('/api/activities/', controller.signal).then(setActivities).catch((error) => {
+    fetchCollection(activitiesEndpoint, controller.signal).then(setActivities).catch((error) => {
       if (error.name !== 'AbortError') setStatus({ loading: false, error: error.message })
     }).finally(() => setStatus((current) => ({ ...current, loading: false })))
     return () => controller.abort()
